@@ -1,1 +1,17 @@
 # Signal-Processing
+
+This is an simple project which is related to the ECG processing by seceral tasks
+1) Resampling two ECGs, 125 Hz and 800 Hz to 200 Hz.
+The frequency of ECG 125 Hz is lower than 200 Hz; therefore, it needs an up-sampling technique to increase the number of samples until achievement to 200 Hz. Since the 125 Hz means that the 125 frequency. It means that each oscillation accrue per (1/125) second. Therefore, we must calculate the time of each oscillation and multiply 200. It shows the
+number of required samples to achieve 200 Hz frequency. For up-sampling, I tried an averaging method. In this vein, the algorithm computes the mean of every two continuing samples and adds both samples and their mean to a new list. Next, the algorithm moves on samples by one, and this process will be continued until the suitable list by required
+number of samples for 200 Hz achieves . For down-sampling, I tried an averaging technique again. The frequency of the original ECG is 800 Hz, and our target is down-sampling to
+achieve 200 Hz. That means we have to keep one of every four samples and delete the other three samples. In this line, the algorithm computed the mean of each 4 continuing elements and added only the mean to a new list. At the next step, the algorithm moves on samples by 4. Therefore, there are not any overlaps between elements during steps. This
+method will be continued until all extra samples removed and we achieve to required samples for 200 Hz frequency.
+
+2) Designing a filter to remove both high frequency noise and baseline wander.
+Since unwanted signals, named noise, merge with ECG and create issues for making the correct diagnosis, we use filters to remove them. Noise may come from unstable DC, muscle
+tremors, and high sensitivity of lids. Filters work by eliminating or reducing frequencies where noise occurs. Before filtering by a basic filter, we must compute several parameters such as Nyquist rate, Sampling rate, and cutoff normalize rate. The bandpass filter is suitable for deleting powerline interference(high-frequency noise) and baseline wander(lowfrequency noise). In this vein, the high cutoff rate and low cutoff rate are required. Our original frequency is 200 Hz and around , the low-frequency noises around 0 and about 0.5 or 0.6 Hz, and high-frequency noises around 2 and about 50 Hz. Since the frequency of resampled ECGs is 200 Hz, the sampling rate equals 400 Hz, and I normalized the high cutoff rate and low cutoff rate. Additionally, the bandpass filter removes high-frequency noises around 50 or 60 Hz and low-frequency noises around 0.5 Hz. Consequently, we use the FFT algorithm on ECGs to recognize noisy frequencies on the plot. Therefore, we can see noise in the center of the FFT plot of ECGs. Next, the removed noises are visible by reapplying the FFT on filtered ECGs, and comparison for diagrams of FFTs and ECGs with the filtered ECGs. By all things that I mentioned, filtered ECGs are suitable for extracting usefull information like peaks
+
+3) Peaks detection.
+As we know, in ECG applications, the correct recognition of R-peaks is extremely important for detecting abnormalities, such as arrhythmia and ventricular hypertrophy. One of
+the essential obstacles at ECGs peaks detection is the lowfrequency component in ECG due to patient breathing etc. Therefore, I use thresholds equal to 200 and 800 to waive low-frequency or local peaks.
